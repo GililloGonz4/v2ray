@@ -2,16 +2,16 @@
 # Author: Jrohy
 # github: https://github.com/Jrohy/multi-v2ray
 
-#定时任务北京执行时间(0~23)
+#Tiempo de ejecucion(0~23)
 BEIJING_UPDATE_TIME=3
 
-#记录最开始运行脚本的路径
+#Grabe la ruta para comenzar el script al principio
 BEGIN_PATH=$(pwd)
 
-#安装方式, 0为全新安装, 1为保留v2ray配置更新
+#Método de instalación, 0 es una instalación nueva, 1 es mantener la actualización de configuración de v2ray
 INSTALL_WAY=0
 
-#定义操作变量, 0为否, 1为是
+# Defina la variable de operación, 0 es no, 1 es sí
 HELP=0
 
 REMOVE=0
@@ -28,7 +28,7 @@ UTIL_CFG="$BASE_SOURCE_PATH/v2ray_util/util_core/util.cfg"
 
 UTIL_PATH="/etc/v2ray_util/util.cfg"
 
-#Centos 临时取消别名
+#Centos Cancelar temporalmente el alias
 [[ -f /etc/redhat-release && -z $(echo $SHELL|grep zsh) ]] && unalias -a
 
 [[ -z $(echo $SHELL|grep zsh) ]] && ENV_FILE=".bashrc" || ENV_FILE=".zshrc"
@@ -61,7 +61,7 @@ while [[ $# > 0 ]];do
         ;;
         --zh)
         CHINESE=1
-        colorEcho ${BLUE} "安装中文版..\n"
+        colorEcho ${BLUE} "Instalar versión china:\n"
         ;;
         *)
                 # unknown option
@@ -81,7 +81,7 @@ help(){
 }
 
 removeV2Ray() {
-    #卸载V2ray官方脚本
+    # Desinstalar el script oficial de V2ray
     systemctl stop v2ray  >/dev/null 2>&1
     systemctl disable v2ray  >/dev/null 2>&1
     service v2ray stop  >/dev/null 2>&1
@@ -92,16 +92,16 @@ removeV2Ray() {
     rm -rf /lib/systemd/system/v2ray.service  >/dev/null 2>&1
     rm -rf /etc/init.d/v2ray  >/dev/null 2>&1
 
-    #清理v2ray相关iptable规则
+    # Limpie las reglas de iptable relacionadas con v2ray
     bash <(curl -L -s $CLEAN_IPTABLES_SHELL)
 
-    #卸载multi-v2ray
+   # Desinstalar multi-v2ray
     pip uninstall v2ray_util -y
     rm -rf /etc/bash_completion.d/v2ray.bash >/dev/null 2>&1
     rm -rf /usr/local/bin/v2ray >/dev/null 2>&1
     rm -rf /etc/v2ray_util >/dev/null 2>&1
 
-    #删除v2ray定时更新任务
+    #Eliminar la tarea de actualización programada de v2ray
     crontab -l|sed '/SHELL=/d;/v2ray/d' > crontab.txt
     crontab crontab.txt >/dev/null 2>&1
     rm -f crontab.txt >/dev/null 2>&1
@@ -112,7 +112,7 @@ removeV2Ray() {
         service cron restart >/dev/null 2>&1
     fi
 
-    #删除multi-v2ray环境变量
+    #Eliminar la variable de entorno multi-v2ray
     sed -i '/v2ray/d' ~/$ENV_FILE
     source ~/$ENV_FILE
 
@@ -120,7 +120,7 @@ removeV2Ray() {
 }
 
 closeSELinux() {
-    #禁用SELinux
+    # deshabilitar SELinux
     if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
         sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
         setenforce 0
@@ -128,10 +128,10 @@ closeSELinux() {
 }
 
 checkSys() {
-    #检查是否为Root
+    # Verifique si es Root
     [ $(id -u) != "0" ] && { colorEcho ${RED} "Error: You must be root to run this script"; exit 1; }
 
-    #检查系统信息
+    #Compruebe la información del sistema
     if [[ -e /etc/redhat-release ]];then
         if [[ $(cat /etc/redhat-release | grep Fedora) ]];then
             OS='Fedora'
@@ -155,7 +155,7 @@ checkSys() {
     fi
 }
 
-#安装依赖
+#Dependencia de instalación
 installDependent(){
     if [[ ${OS} == 'CentOS' || ${OS} == 'Fedora' ]];then
         ${PACKAGE_MANAGER} install ntpdate socat crontabs lsof which -y
@@ -168,10 +168,10 @@ installDependent(){
     bash <(curl -sL https://git.io/fhqMz)
 }
 
-#设置定时升级任务
+# Establecer tarea de actualización de tiempo
 planUpdate(){
     if [[ $CHINESE == 1 ]];then
-        #计算北京时间早上3点时VPS的实际时间
+        #Calculando el tiempo real de VPS a las 3 am hora de Beijing
         ORIGIN_TIME_ZONE=$(date -R|awk '{printf"%d",$6}')
         LOCAL_TIME_ZONE=${ORIGIN_TIME_ZONE%00}
         BEIJING_ZONE=8
@@ -231,11 +231,11 @@ updateProject() {
     curl $BASH_COMPLETION_SHELL > /etc/bash_completion.d/v2ray.bash
     [[ -z $(echo $SHELL|grep zsh) ]] && source /etc/bash_completion.d/v2ray.bash
     
-    #安装/更新V2ray主程序
+    # Instalar / actualizar el programa principal de V2ray
     bash <(curl -L -s https://install.direct/go.sh)
 }
 
-#时间同步
+#Sincronización de tiempo
 timeSync() {
     if [[ ${INSTALL_WAY} == 0 ]];then
         echo -e "${Info} Time Synchronizing.. ${Font}"
@@ -252,16 +252,16 @@ timeSync() {
 
 profileInit() {
 
-    #清理v2ray模块环境变量
+    #Limpie las variables de entorno del módulo v2ray
     [[ $(grep v2ray ~/$ENV_FILE) ]] && sed -i '/v2ray/d' ~/$ENV_FILE && source ~/$ENV_FILE
 
-    #解决Python3中文显示问题
+    #Resolver problemas de visualización en chino de Python3
     [[ -z $(grep PYTHONIOENCODING=utf-8 ~/$ENV_FILE) ]] && echo "export PYTHONIOENCODING=utf-8" >> ~/$ENV_FILE && source ~/$ENV_FILE
 
-    # 加入v2ray tab补全环境变量
+    #Agregue la pestaña v2ray para completar las variables de entorno
     [[ -z $(echo $SHELL|grep zsh) && -z $(grep v2ray.bash ~/$ENV_FILE) ]] && echo "source /etc/bash_completion.d/v2ray.bash" >> ~/$ENV_FILE && source ~/$ENV_FILE
 
-    #全新安装的新配置
+    # Nueva instalación de nueva configuración
     if [[ ${INSTALL_WAY} == 0 ]];then 
         v2ray new
     else
@@ -273,7 +273,7 @@ profileInit() {
 }
 
 installFinish() {
-    #回到原点
+    #De vuelta al origen
     cd ${BEGIN_PATH}
 
     [[ ${INSTALL_WAY} == 0 ]] && WAY="install" || WAY="update"
@@ -303,7 +303,7 @@ main() {
 
     timeSync
 
-    #设置定时任务
+    # Establecer tareas de tiempo
     [[ -z $(crontab -l|grep v2ray) ]] && planUpdate
 
     updateProject
