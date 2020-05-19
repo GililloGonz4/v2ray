@@ -55,25 +55,25 @@ source <(curl -sL https://git.io/fNgqx) --remove
 ## Command Line
 ```bash
 v2ray [-h|--help] [options]
-    -h, --help           get help
+    -h, --help             get help
     -v, --version        get version
-    start                start V2Ray
-    stop                 stop V2Ray
-    restart              restart V2Ray
-    status               check V2Ray status
-    new                  create new json profile
-    update               update v2ray to latest
+    start              encender V2Ray
+    stop               parar V2Ray
+    restart           restart V2Ray
+    status            verificar status V2Ray
+    new                crear nuevo cuenta json
+    update           actualizar v2ray
     add                  random create mkcp + (srtp | wechat-video | utp | dtls) fake header group
     add [wechat|utp|srtp|dtls|wireguard|socks|mtproto|ss]     create special protocol, random new port
-    del                  delete port group
-    info                 check v2ray profile
-    port                 modify port
-    tls                  modify tls
-    tfo                  modify tcpFastOpen
-    stream               modify protocol
-    stats                iptables traffic statistics
-    clean                clean v2ray log
-    log                  check v2ray log
+    del                   eliminar puerto del grupo
+    info                 verificar cuenta v2ray
+    port                 modificar puerto
+    tls                    modificar tls
+    tfo                   modificar tcpFastOpen
+    stream          modificar protocolo
+    stats               iptables traffic statistics
+    clean              borrar log v2ray
+    log                  verificar log v2ray
 ```
 
 ## Docker Run

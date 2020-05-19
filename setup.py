@@ -10,7 +10,7 @@ with open("README.md", "r", encoding='UTF-8') as fh:
 setup(
     name='v2ray-util',
     version=v2ray_util.__version__,
-    description="a tool to manage v2ray config json",
+    description="administrar herramientas v2ray config json",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords='python v2ray multi-v2ray vmess socks5',
