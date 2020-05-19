@@ -35,48 +35,48 @@ def help():
     if lang == 'zh':
         print("""
 {0} [-h|--help] [options]
-    -h, --help           查看帮助
-    -v, --version        查看版本号
-    start                启动 V2Ray
-    stop                 停止 V2Ray
-    restart              重启 V2Ray
-    status               查看 V2Ray 运行状态
-    new                  重建新的v2ray json配置文件
-    update               更新 V2Ray 到最新Release版本
-    add                  新增mkcp + 随机一种 (srtp | wechat-video | utp | dtls) header伪装的端口(Group)
-    add [wechat|utp|srtp|dtls|wireguard|socks|mtproto|ss]     新增一种协议的组，端口随机,如 v2ray add utp 为新增utp协议
-    del                  删除端口组
-    info                 查看配置
-    port                 修改端口
-    tls                  修改tls
-    tfo                  修改tcpFastOpen
-    stream               修改传输协议
-    stats                iptables流量统计
-    clean                清理日志
-    log                  查看日志
+    -h, --help             get help
+    -v, --version        get version
+    start              encender V2Ray
+    stop               parar V2Ray
+    restart           restart V2Ray
+    status            verificar status V2Ray
+    new                crear nueva cuenta json
+    update           actualizar v2ray
+    add                  random create mkcp + (srtp | wechat-video | utp | dtls) fake header group
+    add [wechat|utp|srtp|dtls|wireguard|socks|mtproto|ss]     create special protocol, random new port
+    del                   eliminar puerto del grupo
+    info                 verificar cuenta v2ray
+    port                 modificar puerto
+    tls                    modificar tls
+    tfo                   modificar tcpFastOpen
+    stream          modificar protocolo
+    stats               iptables traffic statistics
+    clean              borrar log v2ray
+    log                  verificar log v2ray
         """.format(exec_name[exec_name.rfind("/") + 1:]))
     else:
         print("""
 {0} [-h|--help] [options]
-    -h, --help           get help
+    -h, --help             get help
     -v, --version        get version
-    start                start V2Ray
-    stop                 stop V2Ray
-    restart              restart V2Ray
-    status               check V2Ray status
-    new                  create new json profile
-    update               update v2ray to latest
+    start              encender V2Ray
+    stop               parar V2Ray
+    restart           restart V2Ray
+    status            verificar status V2Ray
+    new                crear nueva cuenta json
+    update           actualizar v2ray
     add                  random create mkcp + (srtp | wechat-video | utp | dtls) fake header group
     add [wechat|utp|srtp|dtls|wireguard|socks|mtproto|ss]     create special protocol, random new port
-    del                  delete port group
-    info                 check v2ray profile
-    port                 modify port
-    tls                  modify tls
-    tfo                  modify tcpFastOpen
-    stream               modify protocol
-    stats                iptables traffic statistics
-    clean                clean v2ray log
-    log                  check v2ray log
+    del                   eliminar puerto del grupo
+    info                 verificar cuenta v2ray
+    port                 modificar puerto
+    tls                    modificar tls
+    tfo                   modificar tcpFastOpen
+    stream          modificar protocolo
+    stats               iptables traffic statistics
+    clean              borrar log v2ray
+    log                  verificar log v2ray
         """.format(exec_name[exec_name.rfind("/") + 1:]))
 
 def parse_arg():
@@ -136,11 +136,11 @@ def parse_arg():
     sys.exit(0)
 
 def service_manage():
-    show_text = (_("start v2ray"), _("stop v2ray"), _("restart v2ray"), _("v2ray status"), _("v2ray log"))
+    show_text = (_("encender v2ray"), _("parar v2ray"), _("reiniciar v2ray"), _("v2ray status"), _("v2ray log"))
     print("")
     for index, text in enumerate(show_text): 
         print("{}.{}".format(index + 1, text))
-    choice = loop_input_choice_number(_("please select: "), len(show_text))
+    choice = loop_input_choice_number(_("selecione una opcion: "), len(show_text))
     if choice == 1:
         V2ray.start()
     elif choice == 2:
@@ -153,11 +153,11 @@ def service_manage():
         V2ray.log()
 
 def user_manage():
-    show_text = (_("add user"), _("add port"), _("del user"), _("del port"))
+    show_text = (_("agregar usuario"), _("agregar puerto"), _("eliminar usuario"), _("eliminar puerto"))
     print("")
     for index, text in enumerate(show_text): 
         print("{}.{}".format(index + 1, text))
-    choice = loop_input_choice_number(_("please select: "), len(show_text))
+    choice = loop_input_choice_number(_("seleccione una opcion: "), len(show_text))
     if not choice:
         return
     elif choice == 1:
@@ -172,12 +172,12 @@ def user_manage():
     V2ray.restart()
 
 def profile_alter():
-    show_text = (_("modify email"), _("modify UUID"), _("modify alterID"), _("modify port"), _("modify stream"), _("modify tls"), 
-                _("modify tcpFastOpen"), _("modify dyn_port"), _("modify shadowsocks method"), _("modify shadowsocks password"))
+    show_text = (_("modificar email"), _("modificar UUID"), _("modificar alterID"), _("modifcar port"), _("modificar stream"), _("modificar tls"), 
+                _("modificar tcpFastOpen"), _("modificar dyn_port"), _("modificar metodo shadowsocks "), _("modificar contraseña shadowsocks"))
     print("")
     for index, text in enumerate(show_text): 
         print("{}.{}".format(index + 1, text))
-    choice = loop_input_choice_number(_("please select: "), len(show_text))
+    choice = loop_input_choice_number(_("seleccione una opcion: "), len(show_text))
     if not choice:
         return
     elif choice == 1:
@@ -204,11 +204,11 @@ def profile_alter():
     V2ray.restart()
 
 def global_setting():
-    show_text = (_("V2ray Traffic Statistics"), _("Iptables Traffic Statistics"), _("Ban Bittorrent"), _("Schedule Update V2ray"), _("Clean Log"), _("Change Language"))
+    show_text = (_("V2ray Traffic Statistics"), _("Iptables Traffic Statistics"), _("Ban Bittorrent"), _("Schedule Update V2ray"), _("Clean Log"), _("Cambiar Idioma"))
     print("")
     for index, text in enumerate(show_text): 
         print("{}.{}".format(index + 1, text))
-    choice = loop_input_choice_number(_("please select: "), len(show_text))
+    choice = loop_input_choice_number(_("selecione una opcion: "), len(show_text))
     if choice == 1:
         stats_ctr.manage()
     elif choice == 2:
@@ -225,7 +225,7 @@ def global_setting():
         config = Config()
         lang = config.get_data("lang")
         config.set_data("lang", "zh" if lang == "en" else "en")
-        print(ColorStr.yellow(_("please run again to become effective!")))
+        print(ColorStr.yellow(_("¡corre de nuevo para ser efectivo!")))
         sys.exit(0)
 
 def menu():
@@ -233,9 +233,9 @@ def menu():
     parse_arg()
     while True:
         print("")
-        print(ColorStr.cyan(_("Welcome to v2ray-util")))
+        print(ColorStr.cyan(_("Bienvenido a v2ray-util")))
         print("")
-        show_text = (_("1.V2ray Manage"), _("2.Group Manage"), _("3.Modify Config"), _("4.Check Config"), _("5.Global Setting"), _("6.Update V2Ray"), _("7.Generate Client Json"))
+        show_text = (_("1.Administrar v2ray"), _("2.Administrar Grupo"), _("3.Modificar Config"), _("4.Comprobar Config"), _("5.Configuracion Global"), _("6.Actualizar V2Ray"), _("7.Generar Cliente Json"))
         for index, text in enumerate(show_text): 
             if index % 2 == 0:
                 print('{:<20}'.format(text), end="")   
@@ -243,7 +243,7 @@ def menu():
                 print(text)
                 print("")
         print("")
-        choice = loop_input_choice_number(_("please select: "), len(show_text))
+        choice = loop_input_choice_number(_("seleccione una opcion: "), len(show_text))
         if choice == 1:
             service_manage()
         elif choice == 2:

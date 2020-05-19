@@ -68,7 +68,7 @@ def manage(action):
 
 @func_router.route('/user', methods = ['POST'])
 def add_user():
-    success, msg, kw = True, "add user success!!!", dict()
+    success, msg, kw = True, "usuario agregado con exito!", dict()
     try:
         json_request = json.loads(request.get_data())
         group_tag = json_request['group_tag']
