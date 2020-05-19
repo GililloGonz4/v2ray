@@ -112,9 +112,9 @@ def del_port():
     if group == None:
         pass
     else:
-        print(_("del group info: "))
+        print(_("eliminar informacion del grupo: "))
         print(group)
-        choice = input(_("delete?(y/n): ")).lower()
+        choice = input(_("desea eliminar?(y/n): ")).lower()
         if choice == 'y':
             nw = NodeWriter()
             nw.del_port(group)
@@ -130,9 +130,9 @@ def del_user():
         pass
     else:
         client_index = cs.client_index
-        print(_("del user info:"))
+        print(_("eliminar informacion del usuario:"))
         print(group.show_node(client_index))
-        choice = input(_("delete?(y/n): ")).lower()
+        choice = input(_("desea eliminar?(y/n): ")).lower()
         if choice == 'y':
             if len(group.node_list) == 1:
                 clean_iptables(group.port)

@@ -14,7 +14,7 @@ class SSFactory:
         self.method_tuple = ss_method()
 
     def get_method(self):
-        print(_("please select shadowsocks method:"))
+        print(_("selecione su metodo para shadowsocks:"))
         for index, method in enumerate(self.method_tuple):
             print ("{}.{}".format(index + 1, method))
         choice = input()
@@ -40,7 +40,7 @@ def modify(alter_type='method'):
         print(_("input error!"))
         exit(-1)
 
-    gs = GroupSelector(_('modify SS'))
+    gs = GroupSelector(_('modificar SS'))
     group = gs.group
 
     if group == None:
@@ -57,4 +57,4 @@ def modify(alter_type='method'):
             gw.write_ss_method(sm.get_method())
         elif alter_type == correct_way[1]:
             gw.write_ss_password(sm.get_password())
-        print("{0} {1} {2}\n".format(_("modify Shadowsocks"),alter_type, _("success")))
+        print("{0} {1} {2}\n".format(_("modificar Shadowsocks"),alter_type, _("con exito")))

@@ -37,31 +37,31 @@ class StreamModifier:
         if index == 0 or (index >= 3 and index <= 9) or index == 11:
             pass
         elif index == 1 or index == 2:
-            host = input(_("please input fake domain: "))
+            host = input(_("por favor ingrese el dominio falso: "))
             kw['host'] = host
         elif index == 10:
-            user = input(_("please input socks user: "))
-            password = input(_("please input socks password: "))
+            user = input(_("ingrese el usuario socks: "))
+            password = input(_("ingrese la contraseña de los socks: "))
             if user == "" or password == "":
-                print(_("socks user or password is null!!"))
+                print(_("el usuario socks o contraseña es nulo!!"))
                 exit(-1)
-            kw = {'user': user, 'pass': password}
+            kw = {'usuario': user, 'contraseña': password}
         elif index == 12:
             sf = SSFactory()
-            kw = {"method": sf.get_method(), "password": sf.get_password()}
+            kw = {"metódo": sf.get_method(), "contraseña": sf.get_password()}
         elif index == 13:
             key = ""
             security_list = ('none', "aes-128-gcm", "chacha20-poly1305")
             print("")
-            security = CommonSelector(security_list, _("please select ss method: ")).select()
+            security = CommonSelector(security_list, _("por favor selecione su metodo: ")).select()
             if security != "none":
                 key = ''.join(random.sample(string.ascii_letters + string.digits, 8))
-                new_pass = input('{} {}, {}'.format(_("random generate password"), key, _("enter to use, or input customize password: ")))
+                new_pass = input('{} {}, {}'.format(_("generar contraseña al azar"), key, _("ingrese para usar o ingrese la contraseña personalizada: ")))
                 if new_pass:
                     key = new_pass
                     
             print("")
-            header = CommonSelector(header_type_list(), _("please select fake header: ")).select()
+            header = CommonSelector(header_type_list(), _("seleccione encabezado falso: ")).select()
             kw = {'security': security, 'key': key, 'header': header}
         sw.write(**kw)
 
@@ -72,7 +72,7 @@ class StreamModifier:
         self.select(choice)
 
 def modify():
-    gs = GroupSelector(_('modify protocol'))
+    gs = GroupSelector(_('modificar protocolo'))
     group = gs.group
 
     if group == None:
@@ -80,7 +80,7 @@ def modify():
     else:
         sm = StreamModifier(group.tag, group.index)
 
-        print("{}: {}".format(_("group protocol"), group.node_list[0].stream()))
+        print("{}: {}".format(_("protocolo del grupo"), group.node_list[0].stream()))
         print ("")
         for index, stream_type in enumerate(sm.stream_type):
             print("{0}.{1}".format(index + 1, stream_type[1]))
@@ -88,13 +88,13 @@ def modify():
         choice = input()
 
         if not choice.isdecimal():
-            print(_("please input number!"))
+            print(_("por favor ingrese el número!"))
         else:
             choice = int(choice)
             if choice > 0 and choice <= len(sm.stream_type):
                 if (sm.stream_type[choice - 1][1] == "MTProto" or sm.stream_type[choice - 1][1] == "Shadowsocks") and group.tls == 'tls':
-                    print(_("V2ray MTProto/Shadowsocks not support https, close tls success!"))
+                    print(_("V2ray MTProto / Shadowsocks no es compatible con https, ¡cierra el éxito! "))
                 sm.select(choice - 1)
-                print(_("modify protocol success"))
+                print(_("protocolo modificado con exito"))
             else:
-                print(_("input out of range!!"))
+                print(_("entrada fuera de rango !! "))
